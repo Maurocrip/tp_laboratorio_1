@@ -12,10 +12,12 @@ int UTN_getValidacionMaximoMinimo(int* resultado, char* mensaje,char* mensajeErr
 {
 	printf(mensaje);
 	scanf("%d", resultado);
+	fflush(stdin);
 	while(*resultado<minimo || *resultado>maximo)
 	{
 		printf(mensajeError);
 		scanf("%d", resultado);
+		fflush(stdin);
 	}
 	return 0;
 }
@@ -24,10 +26,12 @@ int UTN_getValidacionMayorInt(int* resultado, char* mensaje,char* mensajeError, 
 {
 	printf(mensaje);
 	scanf("%d", resultado);
+	fflush(stdin);
 	while(*resultado<numero)
 	{
 		printf(mensajeError);
 		scanf("%d", resultado);
+		fflush(stdin);
 	}
 	return 0;
 }
@@ -36,10 +40,12 @@ int UTN_getValidacionMayorfloat(float* resultado, char* mensaje,char* mensajeErr
 {
 	printf(mensaje);
 	scanf("%f", resultado);
+	fflush(stdin);
 	while(*resultado<numero)
 	{
 		printf(mensajeError);
 		scanf("%f", resultado);
+		fflush(stdin);
 	}
 	return 0;
 }

@@ -52,8 +52,8 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 				list[i].typePassenger = typePassenger;
 				list[i].isEmpty=0;
 				list[i].statusFlight=statusFlight;
-				break;
 			}
+			break;
 		}
 
 	}
@@ -75,6 +75,7 @@ int findPassengerById(Passenger* list, int len,int id)
 			if(list[i].id == id)
 			{
 				devuelve=i;
+				break;
 			}
 		}
 	}
@@ -90,6 +91,7 @@ int removePassenger(Passenger* list, int len, int id)
 	if(list != NULL && len>0)
 	{
 		indice=findPassengerById(list, len, id);
+
 		if(indice==-1)
 		{
 			respuesta=-1;
@@ -262,7 +264,7 @@ void alta(Passenger persona, int id, Passenger* guardar, int tam)
 	}
 	else
 	{
-		printf("\nNo se ah podido guardar al pasajero ya que no hay espacio disponible: %d.\n",validacion);
+		printf("\nNo se ah podido guardar al pasajero ya que no hay espacio disponible\n");
 	}
 }
 

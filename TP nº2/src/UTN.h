@@ -16,6 +16,8 @@ int UTN_getValidacionMayorfloat(float* resultado, char* mensaje,char* mensajeErr
 
 int UTN_GetValor(char array[], int tam, char* mensaje, char* mensajeError, int conNumero);
 
+int chearLetraint(char* array, int tam);
+
 
 
 #ifndef UTN_H_

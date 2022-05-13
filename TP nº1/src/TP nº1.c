@@ -1,10 +1,9 @@
 /*
  ============================================================================
  Name        : TP nº1.c
- Author      : 
- Version     :
+ Author      : mauro racioppi
+ Division    : D
  Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
  ============================================================================
  */
 

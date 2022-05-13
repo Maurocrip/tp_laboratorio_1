@@ -175,6 +175,7 @@ int chearLetraint(char* array, int tam)
 	int resultado;
 	int i;
 
+	resultado=-1;
 	if(array!=NULL)
 	{
 		for(i=0;array[i]!='\0';i++)

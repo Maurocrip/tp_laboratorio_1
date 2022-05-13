@@ -111,7 +111,6 @@ int main(void)
 				cargaForzada(forzado,CARGA);
 			break;
 		}
-
 	}while(respuesta!=6);
 
 	return 0;

@@ -10,26 +10,26 @@
 #include <string.h>
 #include <ctype.h>
 
-void convertirPalabraAMayusculas(char comprobar[], int indice)
+void convertirPalabraAMayusculas(char comprobar[], int tam)
 {
 	int i;
 
 	if(comprobar != NULL)
 	{
-		for(i=0;i<indice;i++)
+		for(i=0;i<tam;i++)
 		{
 			comprobar[i]=toupper(comprobar[i]);
 		}
 	}
 }
 
-void convertirPalabraAMinusculas(char comprobar[], int indice)
+void convertirPalabraAMinusculas(char comprobar[], int tam)
 {
 	int i;
 
 	if(comprobar != NULL)
 	{
-		for(i=0;i<indice;i++)
+		for(i=0;i<tam;i++)
 		{
 			comprobar[i]=tolower(comprobar[i]);
 		}

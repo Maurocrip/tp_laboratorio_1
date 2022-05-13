@@ -52,10 +52,9 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 				list[i].typePassenger = typePassenger;
 				list[i].isEmpty=0;
 				list[i].statusFlight=statusFlight;
+				break;
 			}
-			break;
 		}
-
 	}
 
 	return devuelve;

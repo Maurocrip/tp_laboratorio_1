@@ -94,7 +94,7 @@ int main()
             break;
 
             case 5:
-            	ll_remove(listaPasajeros,2);
+            	controller_removePassenger(listaPasajeros);
 		    break;
 
 		    case 6:

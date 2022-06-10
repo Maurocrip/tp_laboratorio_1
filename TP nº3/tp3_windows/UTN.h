@@ -27,4 +27,8 @@ int UTN_GetValor(char* array, int tam, char* mensaje, char* mensajeError, int co
 
 int UTN_getValidacionMayorfloat(char* resultado, char* mensaje,char* mensajeError, int numero);
 
+int UTN_getValidacionMayorInt(int* resultado, char* mensaje,char* mensajeError, int numero);
+
+void convertirPalabraAMayusculas(char* comprobar, int tam);
+
 #endif /* UTN_H_ */

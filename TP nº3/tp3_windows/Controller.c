@@ -32,12 +32,15 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 	cantidad=ll_len(pArrayListPassenger);
 	if(cantidad>0)
 	{
-		printf("\nSe les ah modificado el ID a Los pasajeros cargados anteriormente");
 		for(i=0;i<cantidad;i++)
 		{
 			pPasajero=ll_get(pArrayListPassenger,i);
-			pPasajero->id=pPasajero->id+1000;
-			printf("\n%d,%s,%s,%f,%s,%d,%s \n",pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+			if(pPasajero->isEmpty==1)
+			{
+				pPasajero->id=pPasajero->id+1000;
+				printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
+						,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+			}
 		}
 	}
 
@@ -122,6 +125,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 				"\nERROR, el precio del vuelo no puede contener letras o ser menor a 0\nIngrese el precio del vuelo: ",0);
 		UTN_GetValor(var5,7,"Ingrese su codigo de vuelo: ",
 					"\nERROR, su codigo de vuelo no excederse de los 7 caracteres\nIngrese codigo de vuelo: ",1);
+		convertirPalabraAMayusculas(var5,7);
 		UTN_getValidacionMaximoMinimo(&pPasajero->tipoPasajero,"Ingrese el tipo de pasajero(1=FirstClass 2=ExecutiveClass 3=EconomyClass): ",
 				"\nERROR, Reingrese un numero valido(1-3)\nIngrese el tipo de pasajero(1=FirstClass 2=ExecutiveClass 3=EconomyClass): ", 1, 3);
 		itoa(pPasajero->tipoPasajero,var6,50);
@@ -143,7 +147,8 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 		}
 
 		pPasajero=Passenger_newParametros(var1,var2,var3,var4,var5,var6,pPasajero->statusFlight);
-		printf("\n%d,%s,%s,%f,%s,%d,%s",pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+		printf("\nID:%d \nNombre:%s \nApellido:%s \nPrecio:%f \nCodigo de Vuelo:%s \nTipo de pasajero:%d \nEstado de vuelo:%s",
+				pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
 		ll_add(pArrayListPassenger,pPasajero);
 	}
 
@@ -159,8 +164,98 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger)
 {
+	int chequeo;
+	int tam;
+	int opcion;
+	int id;
+	Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
+	if(pArrayListPassenger!=NULL)
+	{
+		tam=ll_len(pArrayListPassenger);
+		do
+		{
+			UTN_getValidacionMaximoMinimo(&id,"\nIngrese el ID del pasajero que desea modificar: ","ERROR, numero de ID invalido\n"
+				"ingrese el ID del pasajero que desea modificar: ",0,tam);
+			pPasajeroModificar=ll_get(pArrayListPassenger, id-1);
+			if(pPasajeroModificar->isEmpty!=1)
+			{
+				printf("\nEl pasajero con ID %d se ah eliminado anteriormente\n",id);
+			}
+		}while(pPasajeroModificar->isEmpty!=1);
+		printf("\nID:%d \nNombre:%s \nApellido:%s \nPrecio:%f \nCodigo de Vuelo:%s \nTipo de pasajero:%d \nEstado de vuelo:%s",
+				pPasajeroModificar->id,pPasajeroModificar->nombre,pPasajeroModificar->apellido,pPasajeroModificar->precio,pPasajeroModificar->codigoVuelo,pPasajeroModificar->tipoPasajero,pPasajeroModificar->statusFlight);
 
-    return 1;
+//-------------------------------------------MENU DE MODIFICACIONES----------------------------------------------------------------------------------------------------------------------------------------------------------
+		do{
+			UTN_getValidacionMaximoMinimo(&opcion,"\nIngrese un numero \n"
+							" 1. para modificar el nombre\n"
+							" 2. para modificar el apelllido\n"
+							" 3. para modificar el precio\n"
+							" 4. para modificar el Codigo de Vuelo \n"
+							" 5. para modificar el Tipo de pasajero\n"
+							" 6. para modificar el Estado de vuelo\n"
+							" 7. salir\n", "\nERROR, Reingrese un numero valido(1-7)\n"
+											" 1. para modificar el nombre\n"
+											" 2. para modificar el apelllido\n"
+											" 3. para modificar el precio\n"
+											" 4. para modificar el Codigo de Vuelo \n"
+											" 5. para modificar el Tipo de pasajero\n"
+											" 6. para modificar el Estado de vuelo\n"
+											" 7. salir", 1, 7);
+			 switch(opcion)
+		      {
+				case 1:
+					chequeo=modificarNombre(pPasajeroModificar);
+					if(chequeo==0)
+					{
+						printf("\nNo se pudo modificar el nombre\n");
+					}
+				break;
+
+				case 2:
+					chequeo=modificarApellido(pPasajeroModificar);
+					if(chequeo==0)
+					{
+						printf("\nNo se pudo modificar el apellido\n");
+					}
+				break;
+
+				case 3:
+				   chequeo=modificarPrecio(pPasajeroModificar);
+				   if(chequeo==0)
+				   {
+					   printf("\nNo se pudo modificar el precio\n");
+				   }
+				break;
+				case 4:
+					chequeo=modificarCodigoVuelo(pPasajeroModificar);
+					if(chequeo==0)
+				   {
+					   printf("\nNo se pudo modificar el codigo de vuelo\n");
+				   }
+				break;
+
+				case 5:
+					chequeo=modificarTipoPasajero(pPasajeroModificar);
+					if(chequeo==0)
+				    {
+					    printf("\nNo se pudo modificar el tipo de pasajero\n");
+				    }
+				break;
+
+				case 6:
+					chequeo=modificarestadoVuelo(pPasajeroModificar);
+					if(chequeo==0)
+					{
+						printf("\nNo se pudo modificar el estado de vuelo\n");
+				    }
+				break;
+		      }
+
+		    }while(opcion != 7);
+	}
+
+	return 1;
 }
 
 /** \brief Baja de pasajero
@@ -172,7 +267,33 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_removePassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	int devuelve;
+	int chequeo;
+	int tam;
+	int id;
+	devuelve=0;
+	Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
+	if(pArrayListPassenger!=NULL)
+	{
+		devuelve=1;
+		tam=ll_len(pArrayListPassenger);
+		do
+		{
+			UTN_getValidacionMaximoMinimo(&id,"\nIngrese el ID del pasajero que desea eliminar: ","ERROR, numero de ID invalido\n"
+				"ingrese el ID del pasajero que desea eliminar: ",0,tam);
+			pPasajeroModificar=ll_get(pArrayListPassenger, id-1);
+			if(pPasajeroModificar->isEmpty!=1)
+			{
+				printf("\nEl pasajero con ID %d ya habia sido eliminado\n",id);
+			}
+		}while(pPasajeroModificar->isEmpty!=1);
+		chequeo=Passenger_delete(pPasajeroModificar);
+		if(chequeo==0)
+		{
+			printf("\nNo se pudo eliminar el pasajero\n");
+		}
+	}
+    return devuelve;
 }
 
 /** \brief Listar pasajeros

@@ -154,3 +154,54 @@ int UTN_getValidacionMayorfloat(char* resultado, char* mensaje,char* mensajeErro
 	return 0;
 }
 
+int UTN_getValidacionMayorInt(int* resultado, char* mensaje,char* mensajeError, int numero)
+{
+	char array[100];
+	int devuelve;
+
+	printf(mensaje);
+	fflush(stdin);
+	gets(array);
+
+	devuelve=chearLetraint(array,100);
+
+	while(devuelve!=0)
+	{
+		printf(mensajeError);
+		fflush(stdin);
+		gets(array);
+		devuelve=chearLetraint(array,100);
+	}
+
+	*resultado=atoi(array);
+
+	while(*resultado<numero)
+	{
+		printf(mensajeError);
+		fflush(stdin);
+		gets(array);
+		devuelve=chearLetraint(array,100);
+		while(devuelve!=0)
+		{
+			printf(mensajeError);
+			fflush(stdin);
+			gets(array);
+			devuelve=chearLetraint(array,100);
+		}
+		*resultado=atoi(array);
+	}
+	return 0;
+}
+
+void convertirPalabraAMayusculas(char* comprobar, int tam)
+{
+	int i;
+
+	if(comprobar != NULL)
+	{
+		for(i=0;i<tam;i++)
+		{
+			*(comprobar+i)=toupper(*(comprobar+i));
+		}
+	}
+}

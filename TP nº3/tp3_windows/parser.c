@@ -48,7 +48,8 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 			pPasajero=Passenger_newParametros(var1,var2,var3,var4,var5,var6,var7);
 		}
 
-		printf("\n%d,%s,%s,%f,%s,%d,%s",pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+		printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s"
+						,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
 		ll_add(pArrayListPassenger,pPasajero);
 	}
 
@@ -98,7 +99,8 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 			pPasajero=Passenger_newParametros(var1,var2,var3,var4,var5,var6,var7);
 		}
 
-		printf("\n%d,%s,%s,%f,%s,%d,%s",pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+		printf("ID:%d\tNombre:%s\tApellido:%s\tPrecio:%2.f\tCodigo de Vuelo:%s\tTipo de pasajero:%d\tEstado de vuelo:%s"
+				,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
 		ll_add(pArrayListPassenger,pPasajero);
 	}
 

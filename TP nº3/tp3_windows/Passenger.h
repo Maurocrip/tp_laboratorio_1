@@ -25,7 +25,7 @@ typedef struct
 
 Passenger* Passenger_new();
 Passenger* Passenger_newParametros(char* idStr,char* nombreStr,char* apellidoStr,char* precioStr,char* tipoPasajeroStr,char* codigoVueloStr,char* statusFlightStr);
-void Passenger_delete();
+int Passenger_delete(Passenger* this );
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);
@@ -44,6 +44,17 @@ int Passenger_getTipoPasajero(Passenger* this,int* tipoPasajero);
 
 int Passenger_setPrecio(Passenger* this,float precio);
 int Passenger_getPrecio(Passenger* this,float* precio);
+
+int Passenger_setStatusFlight(Passenger* this,char* statusFlight);
+int Passenger_getStatusFlight(Passenger* this,char* statusFlight);
+
+
+int modificarNombre(Passenger* pasajeroModificar);
+int modificarApellido(Passenger* pasajeroModificar);
+int modificarPrecio(Passenger* pasajeroModificar);
+int modificarCodigoVuelo(Passenger* pasajeroModificar);
+int modificarTipoPasajero(Passenger* pasajeroModificar);
+int modificarestadoVuelo(Passenger* pasajeroModificar);
 
 
 

@@ -134,7 +134,7 @@ int UTN_GetValor(char array[], int tam, char* mensaje, char* mensajeError, int c
 	int devuelve;
 	int comprobacion;
 	devuelve=-1;
-	if(array!=NULL)
+	if(array!=NULL && tam>0)
 	{
 		devuelve=0;
 
@@ -178,9 +178,9 @@ int chearLetraint(char* array, int tam)
 	resultado=-1;
 	if(array!=NULL)
 	{
-		for(i=0;array[i]!='\0';i++)
+		for(i=0;(array+i)!='\0';i++)
 		{
-			resultado=isalpha(array[i]);
+			resultado=isalpha((array+i));
 			if(resultado!=0)
 			{
 				break;
@@ -189,3 +189,4 @@ int chearLetraint(char* array, int tam)
 	}
 	return resultado;
 }
+

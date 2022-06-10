@@ -65,7 +65,7 @@ int main(void)
 		switch(respuesta)
 		{
 			case 1:
-				//INGRESO DE PASAJEROSç
+				//INGRESO DE PASAJEROS
 				id++;
 				alta(pj,id,registro,CANTIDAD);
 			break;

@@ -63,7 +63,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 	int i;
 	Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
 
-	pArchivo=fopen(path,"rb");
+	pArchivo=fopen(path,"r");
 	if(pArchivo==NULL)
 	{
 		printf("\nEl archivo no se pudo abrir\n");
@@ -73,12 +73,15 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 	cantidad=ll_len(pArrayListPassenger);
 	if(cantidad>0)
 	{
-		printf("\nSe les ah modificado el ID a Los pasajeros cargados anteriormente\n");
 		for(i=0;i<cantidad;i++)
 		{
 			pPasajero=ll_get(pArrayListPassenger,i);
-			pPasajero->id=pPasajero->id+1000;
-			printf("\n%d,%s,%s,%f,%s,%d,%s \n",pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+			if(pPasajero->isEmpty==1)
+			{
+				pPasajero->id=pPasajero->id+1000;
+				printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
+						,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+			}
 		}
 	}
 
@@ -99,12 +102,11 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 	int devuelve;
 	char var1[50],var2[50],var3[50],var4[50],var5[50],var6[50];
 	int var7;
-	Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
-
 	devuelve=0;
 
 	if(pArrayListPassenger!=NULL)
 	{
+		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
 		devuelve=1;
 		pPasajero->id=ll_len(pArrayListPassenger);
 		if(pPasajero->id==0)
@@ -147,8 +149,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 		}
 
 		pPasajero=Passenger_newParametros(var1,var2,var3,var4,var5,var6,pPasajero->statusFlight);
-		printf("\nID:%d \nNombre:%s \nApellido:%s \nPrecio:%f \nCodigo de Vuelo:%s \nTipo de pasajero:%d \nEstado de vuelo:%s",
-				pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+		mostrarPasajero(pPasajero);
 		ll_add(pArrayListPassenger,pPasajero);
 	}
 
@@ -167,24 +168,34 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 	int chequeo;
 	int tam;
 	int opcion;
+	int i;
 	int id;
-	Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
+
 	if(pArrayListPassenger!=NULL)
 	{
+		Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
 		tam=ll_len(pArrayListPassenger);
 		do
 		{
 			UTN_getValidacionMaximoMinimo(&id,"\nIngrese el ID del pasajero que desea modificar: ","ERROR, numero de ID invalido\n"
 				"ingrese el ID del pasajero que desea modificar: ",0,tam);
-			pPasajeroModificar=ll_get(pArrayListPassenger, id-1);
+			for(i=0;i<tam;i++)
+			{
+				pPasajeroModificar=ll_get(pArrayListPassenger,i);
+				if(pPasajeroModificar->id==id)
+				{
+					break;
+				}
+			}
+
 			if(pPasajeroModificar->isEmpty!=1)
 			{
 				printf("\nEl pasajero con ID %d se ah eliminado anteriormente\n",id);
 			}
 		}while(pPasajeroModificar->isEmpty!=1);
-		printf("\nID:%d \nNombre:%s \nApellido:%s \nPrecio:%f \nCodigo de Vuelo:%s \nTipo de pasajero:%d \nEstado de vuelo:%s",
-				pPasajeroModificar->id,pPasajeroModificar->nombre,pPasajeroModificar->apellido,pPasajeroModificar->precio,pPasajeroModificar->codigoVuelo,pPasajeroModificar->tipoPasajero,pPasajeroModificar->statusFlight);
-
+		/*printf("\nID:%d \nNombre:%s \nApellido:%s \nPrecio:%f \nCodigo de Vuelo:%s \nTipo de pasajero:%d \nEstado de vuelo:%s",
+				pPasajeroModificar->id,pPasajeroModificar->nombre,pPasajeroModificar->apellido,pPasajeroModificar->precio,pPasajeroModificar->codigoVuelo,pPasajeroModificar->tipoPasajero,pPasajeroModificar->statusFlight);*/
+		mostrarPasajero(pPasajeroModificar);
 //-------------------------------------------MENU DE MODIFICACIONES----------------------------------------------------------------------------------------------------------------------------------------------------------
 		do{
 			UTN_getValidacionMaximoMinimo(&opcion,"\nIngrese un numero \n"
@@ -270,18 +281,26 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
 	int devuelve;
 	int chequeo;
 	int tam;
+	int i;
 	int id;
 	devuelve=0;
-	Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
 	if(pArrayListPassenger!=NULL)
 	{
+		Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
 		devuelve=1;
 		tam=ll_len(pArrayListPassenger);
 		do
 		{
 			UTN_getValidacionMaximoMinimo(&id,"\nIngrese el ID del pasajero que desea eliminar: ","ERROR, numero de ID invalido\n"
 				"ingrese el ID del pasajero que desea eliminar: ",0,tam);
-			pPasajeroModificar=ll_get(pArrayListPassenger, id-1);
+			for(i=0;i<tam;i++)
+			{
+				pPasajeroModificar=ll_get(pArrayListPassenger,i);
+				if(pPasajeroModificar->id==id)
+				{
+					break;
+				}
+			}
 			if(pPasajeroModificar->isEmpty!=1)
 			{
 				printf("\nEl pasajero con ID %d ya habia sido eliminado\n",id);
@@ -305,7 +324,25 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
  */
 int controller_ListPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	int tam;
+	int i;
+	int devuelve;
+	devuelve=0;
+	if(pArrayListPassenger!=NULL)
+	{
+		devuelve=1;
+		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
+		tam=ll_len(pArrayListPassenger);
+		for(i=0;i<tam;i++)
+		{
+			pPasajero=ll_get(pArrayListPassenger,i);
+			if(pPasajero->isEmpty==1)
+			{
+				mostrarPasajero(pPasajero);
+			}
+		}
+	}
+    return devuelve;
 }
 
 /** \brief Ordenar pasajeros
@@ -317,7 +354,35 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+
+	int tam;
+	int i;
+	int j;
+	int devuelve;
+	devuelve=0;
+	if(pArrayListPassenger!=NULL)
+	{
+		devuelve=1;
+		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajero2= (Passenger*) malloc(sizeof(Passenger));
+		tam=ll_len(pArrayListPassenger);
+		if(tam!=1)
+		{
+			for(i=0;i<tam;i++)
+			{
+				pPasajero=ll_get(pArrayListPassenger,i);
+				for(j=i;j<tam;j++)
+				{
+					pPasajero2=ll_get(pArrayListPassenger,j);
+					comparaionID(pPasajero,pPasajero2);
+				}
+			}
+		}
+		free(pPasajero);
+		free(pPasajero2);
+	}
+	return devuelve;
+
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
@@ -329,8 +394,21 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 {
-    return 1;
+	FILE* pArchivo;
+	int cantidadEscrita;
+
+	pArchivo=fopen(path,"w");
+	if(pArchivo==NULL)
+	{
+		printf("\nEl archivo no se pudo abrir\n");
+		exit (1);
+	}
+
+	cantidadEscrita=fwrite(pArrayListPassenger,sizeof(LinkedList),1,pArchivo);
+	fclose(pArchivo);
+	return 1;
 }
+
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo binario).
  *

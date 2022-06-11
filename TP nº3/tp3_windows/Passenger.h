@@ -56,6 +56,11 @@ int modificarCodigoVuelo(Passenger* pasajeroModificar);
 int modificarTipoPasajero(Passenger* pasajeroModificar);
 int modificarestadoVuelo(Passenger* pasajeroModificar);
 
+int mostrarPasajero(Passenger* pasajero);
+int comparaionID(Passenger* pasajero1,Passenger* pasajero2);
+int cambioPasajero(Passenger* pasajero1,Passenger* pasajero2);
+int cantidadPasajerosIngresados(LinkedList* this);
+
 
 
 #endif /* PASSENGER_H_ */

@@ -340,3 +340,76 @@ int modificarestadoVuelo(Passenger* pasajeroModificar)
 	return devuelve;
 }
 //--------------------------------------------------------------------FIN FUNCIONES PARA EL MENU DE MODIFICACIONES------------------------------------------------
+
+int mostrarPasajero(Passenger* pasajero)
+{
+	int devuelve;
+	devuelve=0;
+	if(pasajero!=NULL)
+	{
+		devuelve=1;
+		printf("\nID:%d Nombre:%s Apellido:%s Precio:%2.f Codigo de Vuelo:%s Tipo de pasajero:%d Estado de vuelo:%s"
+			,pasajero->id,pasajero->nombre,pasajero->apellido,pasajero->precio,pasajero->codigoVuelo,pasajero->tipoPasajero,pasajero->statusFlight);
+	}
+	return devuelve;
+}
+
+int comparaionID(Passenger* pasajero1,Passenger* pasajero2)
+{
+	int devuelve;
+	devuelve=0;
+	if(pasajero1!=NULL && pasajero2!=NULL)
+	{
+		devuelve=1;
+		Passenger* comodin= (Passenger*) malloc(sizeof(Passenger));
+		if(pasajero1->id>pasajero2->id)
+		{
+			cambioPasajero(comodin,pasajero2);
+			cambioPasajero(pasajero2,pasajero1);
+			cambioPasajero(pasajero1,comodin);
+		}
+		free(comodin);
+	}
+	return devuelve;
+}
+
+int cambioPasajero(Passenger* pasajero1,Passenger* pasajero2)
+{
+	int devuelve;
+	devuelve=0;
+	if(pasajero1!=NULL && pasajero2!=NULL)
+	{
+		Passenger_setId(pasajero1,pasajero2->id);
+		Passenger_setNombre(pasajero1,pasajero2->nombre);
+		Passenger_setApellido(pasajero1,pasajero2->apellido);
+		Passenger_setPrecio(pasajero1,pasajero2->precio);
+		Passenger_setTipoPasajero(pasajero1,pasajero2->tipoPasajero);
+		Passenger_setCodigoVuelo(pasajero1,pasajero2->codigoVuelo);
+		Passenger_setStatusFlight(pasajero1,pasajero2->statusFlight);
+		devuelve=1;
+	}
+	return devuelve;
+}
+
+int cantidadPasajerosIngresados(LinkedList* this)
+{
+	int devuelve;
+	int tam;
+	int i;
+	devuelve=0;
+	if(this!=NULL)
+	{
+		Passenger* pasajeros= (Passenger*) malloc(sizeof(Passenger));
+		tam=ll_len(this);
+		for(i=0;i<tam;i++)
+		{
+			pasajeros=ll_get(this,i);
+			if(pasajeros->isEmpty==1)
+			{
+				devuelve++;
+			}
+		}
+		free(pasajeros);
+	}
+	return devuelve;
+}

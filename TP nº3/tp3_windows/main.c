@@ -27,6 +27,7 @@ int main()
     int option = 0;
     int chequeo;
     int archivoFlag = 0;
+    int tam;
 
 
     LinkedList* listaPasajeros = ll_newLinkedList();
@@ -52,6 +53,7 @@ int main()
 								" 8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto)\n"
 								" 9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario)\n"
 								" 10. salir ", 1, 10);
+    	tam=cantidadPasajerosIngresados(listaPasajeros);
         switch(option)
         {
             case 1:
@@ -90,25 +92,67 @@ int main()
             	}
             break;
             case 4:
-            	controller_editPassenger(listaPasajeros);
+            	if(tam!=0)
+            	{
+            		controller_editPassenger(listaPasajeros);
+            	}
+            	else
+            	{
+            		printf("\nNo hay pasajeros ingresados\n");
+            	}
             break;
 
             case 5:
-            	controller_removePassenger(listaPasajeros);
+            	if(tam!=0)
+				{
+					controller_removePassenger(listaPasajeros);
+				}
+				else
+				{
+					printf("\nNo hay pasajeros ingresados\n");
+				}
 		    break;
 
 		    case 6:
-
+		    	if(tam!=0)
+				{
+					controller_ListPassenger(listaPasajeros);
+				}
+				else
+				{
+					printf("\nNo hay pasajeros ingresados\n");
+				}
 		    break;
 
 		    case 7:
-
+		    	if(tam!=0)
+				{
+					controller_sortPassenger(listaPasajeros);
+				}
+				else
+				{
+					printf("\nNo hay pasajeros ingresados\n");
+				}
 			break;
 		    case 8:
-
+		    	if(archivoFlag==1)
+				{
+		    		controller_saveAsText("data.csv",listaPasajeros);
+				}
+				else
+				{
+					printf("\nTienes que cargar el archivo antes\n");
+				}
 			break;
 		   	case 9:
-
+		   		if(archivoFlag==1)
+				{
+		   			controller_saveAsBinary("data.csv",listaPasajeros);
+				}
+				else
+				{
+					printf("\nTienes que cargar el archivo antes\n");
+				}
 			break;
         }
     }while(option != 10);

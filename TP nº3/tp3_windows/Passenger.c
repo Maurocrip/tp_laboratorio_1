@@ -42,7 +42,6 @@ Passenger* Passenger_newParametros(char* idStr,char* nombreStr,char* apellidoStr
 {
 	Passenger* pAux=Passenger_new();
 
-
 	Passenger_setId(pAux,atoi(idStr));
 	Passenger_setNombre(pAux,nombreStr);
 	Passenger_setApellido(pAux,apellidoStr);
@@ -341,6 +340,9 @@ int modificarestadoVuelo(Passenger* pasajeroModificar)
 }
 //--------------------------------------------------------------------FIN FUNCIONES PARA EL MENU DE MODIFICACIONES------------------------------------------------
 
+//------------------------------------------------------------FUNCIONES AUXILIARES--------------------------------------------------------------------------------
+
+
 int mostrarPasajero(Passenger* pasajero)
 {
 	int devuelve;
@@ -396,9 +398,10 @@ int cantidadPasajerosIngresados(LinkedList* this)
 	int devuelve;
 	int tam;
 	int i;
-	devuelve=0;
+	devuelve=-1;
 	if(this!=NULL)
 	{
+		devuelve=0;
 		Passenger* pasajeros= (Passenger*) malloc(sizeof(Passenger));
 		tam=ll_len(this);
 		for(i=0;i<tam;i++)
@@ -475,3 +478,6 @@ int pedirDatosPasajeros(Passenger* pPasajero,char* nombre,char* apellido,char* p
 	}
 	return devuelve;
 }
+
+//--------------------------------------------------------------------FIN FUNCIONES AUXILIARES--------------------------------------------------------------------
+

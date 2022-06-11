@@ -23,7 +23,7 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 	int i;
 	if(pArrayListPassenger!=NULL && path!=NULL)
 	{
-		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajero=Passenger_new();
 
 		pArchivo=fopen(path,"r");
 		if(pArchivo==NULL)
@@ -73,7 +73,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 	int i;
 	if(pArrayListPassenger!=NULL && path!=NULL)
 	{
-		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajero=Passenger_new();
 
 		pArchivo=fopen(path,"r");
 		if(pArchivo==NULL)
@@ -123,7 +123,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 
 	if(pArrayListPassenger!=NULL)
 	{
-		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajero=Passenger_new();
 		pPasajero->id=ll_len(pArrayListPassenger);
 		if(pPasajero->id==0)
 		{
@@ -162,7 +162,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 
 	if(pArrayListPassenger!=NULL)
 	{
-		Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajeroModificar=Passenger_new();
 		tam=ll_len(pArrayListPassenger);
 		do
 		{
@@ -273,7 +273,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
 	devuelve=0;
 	if(pArrayListPassenger!=NULL)
 	{
-		Passenger* pPasajeroModificar= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajeroModificar=Passenger_new();
 		devuelve=1;
 		tam=ll_len(pArrayListPassenger);
 		do
@@ -319,7 +319,7 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
 	if(pArrayListPassenger!=NULL)
 	{
 		devuelve=1;
-		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajero=Passenger_new();
 		tam=ll_len(pArrayListPassenger);
 		for(i=0;i<tam;i++)
 		{
@@ -351,8 +351,8 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
 	if(pArrayListPassenger!=NULL)
 	{
 		devuelve=1;
-		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
-		Passenger* pPasajero2= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pPasajero=Passenger_new();
+		Passenger* pPasajero2=Passenger_new();
 		tam=ll_len(pArrayListPassenger);
 		if(tam!=1)
 		{
@@ -387,7 +387,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 	if(path!=NULL && pArrayListPassenger!=NULL)
 	{
 		FILE* pArchivo;
-		Passenger* pasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pasajero=Passenger_new();
 
 		pArchivo=fopen(path,"wb");
 		if(pArchivo==NULL)
@@ -422,7 +422,7 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 	if(path!=NULL && pArrayListPassenger!=NULL)
 	{
 		FILE* pArchivo;
-		Passenger* pasajero= (Passenger*) malloc(sizeof(Passenger));
+		Passenger* pasajero=Passenger_new();
 
 		pArchivo=fopen(path,"wb");
 		if(pArchivo==NULL)

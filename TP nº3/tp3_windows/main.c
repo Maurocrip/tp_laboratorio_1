@@ -28,6 +28,7 @@ int main()
     int chequeo;
     int archivoFlag = 0;
     int tam;
+    int guardado =0;
 
 
     LinkedList* listaPasajeros = ll_newLinkedList();
@@ -137,7 +138,17 @@ int main()
 		    case 8:
 		    	if(archivoFlag==1)
 				{
-		    		controller_saveAsText("data.csv",listaPasajeros);
+		    		chequeo=controller_saveAsText("data.csv",listaPasajeros);
+		    		guardado=1;
+		    		if(chequeo==1)
+					{
+						printf("\nEl archivo se guardo con exito\n");
+
+					}
+					else
+					{
+						printf("\nEl archivo no se guardo con exito\n");
+					}
 				}
 				else
 				{
@@ -147,15 +158,36 @@ int main()
 		   	case 9:
 		   		if(archivoFlag==1)
 				{
-		   			controller_saveAsBinary("data.csv",listaPasajeros);
+		   			chequeo=controller_saveAsBinary("data.csv",listaPasajeros);
+		   			guardado=1;
+		   			if(chequeo==1)
+					{
+						printf("\nEl archivo se guardo con exito\n");
+
+					}
+					else
+					{
+						printf("\nEl archivo no se guardo con exito\n");
+					}
 				}
 				else
 				{
 					printf("\nTienes que cargar el archivo antes\n");
 				}
+
+			break;
+		   	case 10:
+				if(guardado==1)
+				{
+					exit(1);
+				}
+				else
+				{
+					printf("\nTienes que guardar en el archivo antes de irte\n");
+				}
 			break;
         }
-    }while(option != 10);
+    }while(option != 11);
     return 0;
 }
 

@@ -20,32 +20,36 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 	FILE* pArchivo;
 	int cantidad;
 	int i;
-	Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
-
-	pArchivo=fopen(path,"r");
-	if(pArchivo==NULL)
+	if(pArrayListPassenger!=NULL && path!=NULL)
 	{
-		printf("\nEl archivo no se pudo abrir\n");
-		exit (1);
-	}
+		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
 
-	cantidad=ll_len(pArrayListPassenger);
-	if(cantidad>0)
-	{
-		for(i=0;i<cantidad;i++)
+		pArchivo=fopen(path,"r");
+		if(pArchivo==NULL)
 		{
-			pPasajero=ll_get(pArrayListPassenger,i);
-			if(pPasajero->isEmpty==1)
+			printf("\nEl archivo no se pudo abrir\n");
+			exit (1);
+		}
+
+		cantidad=ll_len(pArrayListPassenger);
+		if(cantidad>0)
+		{
+			for(i=0;i<cantidad;i++)
 			{
-				pPasajero->id=pPasajero->id+1000;
-				printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
-						,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+				pPasajero=ll_get(pArrayListPassenger,i);
+				if(pPasajero->isEmpty==1)
+				{
+					pPasajero->id=pPasajero->id+1000;
+					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
+							,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+				}
 			}
 		}
+
+		parser_PassengerFromText(pArchivo,pArrayListPassenger);
+		fclose(pArchivo);
 	}
 
-	parser_PassengerFromText(pArchivo,pArrayListPassenger);
-	fclose(pArchivo);
     return 1;
 }
 
@@ -61,32 +65,35 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 	FILE* pArchivo;
 	int cantidad;
 	int i;
-	Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
-
-	pArchivo=fopen(path,"r");
-	if(pArchivo==NULL)
+	if(pArrayListPassenger!=NULL && path!=NULL)
 	{
-		printf("\nEl archivo no se pudo abrir\n");
-		exit (1);
-	}
+		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
 
-	cantidad=ll_len(pArrayListPassenger);
-	if(cantidad>0)
-	{
-		for(i=0;i<cantidad;i++)
+		pArchivo=fopen(path,"r");
+		if(pArchivo==NULL)
 		{
-			pPasajero=ll_get(pArrayListPassenger,i);
-			if(pPasajero->isEmpty==1)
+			printf("\nEl archivo no se pudo abrir\n");
+			exit (1);
+		}
+
+		cantidad=ll_len(pArrayListPassenger);
+		if(cantidad>0)
+		{
+			for(i=0;i<cantidad;i++)
 			{
-				pPasajero->id=pPasajero->id+1000;
-				printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
-						,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+				pPasajero=ll_get(pArrayListPassenger,i);
+				if(pPasajero->isEmpty==1)
+				{
+					pPasajero->id=pPasajero->id+1000;
+					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
+							,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
+				}
 			}
 		}
-	}
 
-	parser_PassengerFromBinary(pArchivo,pArrayListPassenger);
-	fclose(pArchivo);
+		parser_PassengerFromBinary(pArchivo,pArrayListPassenger);
+		fclose(pArchivo);
+	}
 	return 1;
 }
 
@@ -394,19 +401,37 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 {
-	FILE* pArchivo;
-	int cantidadEscrita;
-
-	pArchivo=fopen(path,"w");
-	if(pArchivo==NULL)
+	int devuelve;
+	devuelve=0;
+	if(path!=NULL && pArrayListPassenger!=NULL)
 	{
-		printf("\nEl archivo no se pudo abrir\n");
-		exit (1);
+		devuelve=1;
+		FILE* pArchivo;
+		int tam;
+		Passenger* pasajero= (Passenger*) malloc(sizeof(Passenger));
+		tam=ll_len(pArrayListPassenger);
+		pArchivo=fopen(path,"w");
+		if(pArchivo==NULL)
+		{
+			printf("\nEl archivo no se pudo abrir\n");
+			exit (1);
+		}
+
+		fprintf(pArchivo,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
+		for(int i=0;i<tam;i++)
+		{
+			pasajero=ll_get(pArrayListPassenger,i);
+			if(pasajero->isEmpty==1)
+			{
+				fprintf(pArchivo,"%d,%s,%s,%f,%s,%d,%s\n",pasajero->id,pasajero->nombre,
+					pasajero->apellido,pasajero->precio,pasajero->codigoVuelo,pasajero->tipoPasajero,pasajero->statusFlight);
+			}
+		}
+		free(pasajero);
+		fclose(pArchivo);
 	}
 
-	cantidadEscrita=fwrite(pArrayListPassenger,sizeof(LinkedList),1,pArchivo);
-	fclose(pArchivo);
-	return 1;
+	return devuelve;
 }
 
 
@@ -419,6 +444,35 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 {
-    return 1;
-}
+	int devuelve;
+	devuelve=0;
+	if(path!=NULL && pArrayListPassenger!=NULL)
+	{
+		devuelve=1;
+		FILE* pArchivo;
+		int tam;
+		Passenger* pasajero= (Passenger*) malloc(sizeof(Passenger));
+		tam=ll_len(pArrayListPassenger);
+		pArchivo=fopen(path,"wb");
+		if(pArchivo==NULL)
+		{
+			printf("\nEl archivo no se pudo abrir\n");
+			exit (1);
+		}
 
+		fprintf(pArchivo,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
+		for(int i=0;i<tam;i++)
+		{
+			pasajero=ll_get(pArrayListPassenger,i);
+			if(pasajero->isEmpty==1)
+			{
+				fprintf(pArchivo,"%d,%s,%s,%f,%s,%d,%s\n",pasajero->id,pasajero->nombre,
+					pasajero->apellido,pasajero->precio,pasajero->codigoVuelo,pasajero->tipoPasajero,pasajero->statusFlight);
+			}
+		}
+		free(pasajero);
+		fclose(pArchivo);
+	}
+
+	return devuelve;
+}

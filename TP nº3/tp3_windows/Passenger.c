@@ -362,7 +362,7 @@ int comparaionID(Passenger* pasajero1,Passenger* pasajero2)
 	{
 		devuelve=1;
 		Passenger* comodin= (Passenger*) malloc(sizeof(Passenger));
-		if(pasajero1->id>pasajero2->id)
+		if(pasajero1->id<pasajero2->id)
 		{
 			cambioPasajero(comodin,pasajero2);
 			cambioPasajero(pasajero2,pasajero1);

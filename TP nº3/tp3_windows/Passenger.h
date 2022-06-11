@@ -60,7 +60,8 @@ int mostrarPasajero(Passenger* pasajero);
 int comparaionID(Passenger* pasajero1,Passenger* pasajero2);
 int cambioPasajero(Passenger* pasajero1,Passenger* pasajero2);
 int cantidadPasajerosIngresados(LinkedList* this);
-
+int savePasajerosArchivo(Passenger* pasajero, FILE* pFile, LinkedList* this);
+int pedirDatosPasajeros(Passenger* pPasajero,char* nombre,char* apellido,char* precio,char* codigoVuelo,char* tipoPasajero,int* statusFlight);
 
 
 #endif /* PASSENGER_H_ */

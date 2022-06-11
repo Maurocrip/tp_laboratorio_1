@@ -362,7 +362,7 @@ int comparaionID(Passenger* pasajero1,Passenger* pasajero2)
 	{
 		devuelve=1;
 		Passenger* comodin= (Passenger*) malloc(sizeof(Passenger));
-		if(pasajero1->id<pasajero2->id)
+		if(pasajero1->id>pasajero2->id)
 		{
 			cambioPasajero(comodin,pasajero2);
 			cambioPasajero(pasajero2,pasajero1);
@@ -409,7 +409,69 @@ int cantidadPasajerosIngresados(LinkedList* this)
 				devuelve++;
 			}
 		}
-		free(pasajeros);
+	}
+	return devuelve;
+}
+
+int savePasajerosArchivo(Passenger* pasajero, FILE* pFile, LinkedList* this)
+{
+	int devuelve;
+	int tam;
+	devuelve=0;
+
+	if(this!=NULL && pasajero!=NULL && pFile!=NULL)
+	{
+		devuelve=1;
+		tam=ll_len(this);
+		fprintf(pFile,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
+		for(int i=0;i<tam;i++)
+		{
+			pasajero=ll_get(this,i);
+			if(pasajero->isEmpty==1)
+			{
+				fprintf(pFile,"%d,%s,%s,%f,%s,%d,%s\n",pasajero->id,pasajero->nombre,
+					pasajero->apellido,pasajero->precio,pasajero->codigoVuelo,pasajero->tipoPasajero,pasajero->statusFlight);
+			}
+		}
+	}
+	return devuelve;
+}
+
+int pedirDatosPasajeros(Passenger* pPasajero,char* nombre,char* apellido,char* precio,char* codigoVuelo,char* tipoPasajero,int* statusFlight)
+{
+	int devuelve;
+	devuelve=0;
+	if(pPasajero!=NULL && nombre!=NULL && apellido!=NULL && precio!=NULL && codigoVuelo!=NULL && tipoPasajero!=NULL && statusFlight!=NULL)
+	{
+		UTN_GetValor(nombre,CARACTERES,"Ingrese su nombre: ",
+				"\nERROR, su nombre no puede contener numeros o excederse de los 50 caracteres\nIngrese su nombre: ",0);
+		UTN_GetValor(apellido,CARACTERES,"Ingrese su apellido: ",
+					"\nERROR, su apellido no puede contener numeros o excederse de los 50 caracteres\nIngrese su apellido: ",0);
+		UTN_getValidacionMayorfloat(precio,"Ingrese el precio del vuelo: ",
+				"\nERROR, el precio del vuelo no puede contener letras o ser menor a 0\nIngrese el precio del vuelo: ",0);
+		UTN_GetValor(codigoVuelo,7,"Ingrese su codigo de vuelo: ",
+					"\nERROR, su codigo de vuelo no excederse de los 7 caracteres\nIngrese codigo de vuelo: ",1);
+		convertirPalabraAMayusculas(codigoVuelo,7);
+		UTN_getValidacionMaximoMinimo(&pPasajero->tipoPasajero,"Ingrese el tipo de pasajero(1=FirstClass 2=ExecutiveClass 3=EconomyClass): ",
+				"\nERROR, Reingrese un numero valido(1-3)\nIngrese el tipo de pasajero(1=FirstClass 2=ExecutiveClass 3=EconomyClass): ", 1, 3);
+		itoa(pPasajero->tipoPasajero,tipoPasajero,50);
+		UTN_getValidacionMaximoMinimo(statusFlight,"Ingrese el estado de vuelo(1=Aterrizado 2=En horario 3=Demorado): ",
+				"\nERROR, Reingrese solo un numero valido(1-3)\nIngrese el estado de vuelo(1=Aterrizado 2=En horario 3=Demorado): ", 1, 3);
+		switch(*statusFlight)
+		{
+			case 1:
+				strcpy(pPasajero->statusFlight,"Aterrizado");
+			break;
+
+			case 2:
+				strcpy(pPasajero->statusFlight,"En horario");
+			break;
+
+			case 3:
+				strcpy(pPasajero->statusFlight,"Demorado");
+			break;
+		}
+		devuelve=1;
 	}
 	return devuelve;
 }

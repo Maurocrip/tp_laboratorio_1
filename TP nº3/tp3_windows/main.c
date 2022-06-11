@@ -30,7 +30,6 @@ int main()
     int tam;
     int guardado =0;
 
-
     LinkedList* listaPasajeros = ll_newLinkedList();
     do{
     	UTN_getValidacionMaximoMinimo(&option,"\nIngrese un numero \n"
@@ -55,6 +54,7 @@ int main()
 								" 9. Guardar los datos de los pasajeros en el archivo data.csv (modo binario)\n"
 								" 10. salir ", 1, 10);
     	tam=cantidadPasajerosIngresados(listaPasajeros);
+
         switch(option)
         {
             case 1:
@@ -95,6 +95,7 @@ int main()
             case 4:
             	if(tam!=0)
             	{
+
             		controller_editPassenger(listaPasajeros);
             	}
             	else

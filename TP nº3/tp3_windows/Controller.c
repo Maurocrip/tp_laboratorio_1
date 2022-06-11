@@ -19,6 +19,7 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 {
 	FILE* pArchivo;
 	int cantidad;
+	int pasajerosArchiuvo;
 	int i;
 	if(pArrayListPassenger!=NULL && path!=NULL)
 	{
@@ -34,19 +35,23 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 		cantidad=ll_len(pArrayListPassenger);
 		if(cantidad>0)
 		{
+			pasajerosArchiuvo=parser_PassengerFromText(pArchivo,pArrayListPassenger);
+			printf("\nSe le modifico el ID a:\n");
 			for(i=0;i<cantidad;i++)
 			{
 				pPasajero=ll_get(pArrayListPassenger,i);
 				if(pPasajero->isEmpty==1)
 				{
-					pPasajero->id=pPasajero->id+1000;
-					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
+					pPasajero->id=pPasajero->id+pasajerosArchiuvo;
+					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s"//no uso la funcion mostrarPasajeros por que sino no aparecen todos los pasajeros en pantalla
 							,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
 				}
 			}
 		}
-
-		parser_PassengerFromText(pArchivo,pArrayListPassenger);
+		else
+		{
+			parser_PassengerFromText(pArchivo,pArrayListPassenger);
+		}
 		fclose(pArchivo);
 	}
 
@@ -64,6 +69,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 {
 	FILE* pArchivo;
 	int cantidad;
+	int pasajerosArchiuvo;
 	int i;
 	if(pArrayListPassenger!=NULL && path!=NULL)
 	{
@@ -79,19 +85,23 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 		cantidad=ll_len(pArrayListPassenger);
 		if(cantidad>0)
 		{
+			pasajerosArchiuvo=parser_PassengerFromText(pArchivo,pArrayListPassenger);
+			printf("\nSe le modifico el ID a:\n");
 			for(i=0;i<cantidad;i++)
 			{
 				pPasajero=ll_get(pArrayListPassenger,i);
 				if(pPasajero->isEmpty==1)
 				{
-					pPasajero->id=pPasajero->id+1000;
-					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\nSe le modifico el ID\n"
+					pPasajero->id=pPasajero->id+pasajerosArchiuvo;
+					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s" //no uso la funcion mostrarPasajeros por que sino no aparecen todos los pasajeros en pantalla
 							,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
 				}
 			}
 		}
-
-		parser_PassengerFromBinary(pArchivo,pArrayListPassenger);
+		else
+		{
+			parser_PassengerFromText(pArchivo,pArrayListPassenger);
+		}
 		fclose(pArchivo);
 	}
 	return 1;
@@ -114,7 +124,6 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 	if(pArrayListPassenger!=NULL)
 	{
 		Passenger* pPasajero= (Passenger*) malloc(sizeof(Passenger));
-		devuelve=1;
 		pPasajero->id=ll_len(pArrayListPassenger);
 		if(pPasajero->id==0)
 		{
@@ -126,34 +135,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 			itoa(pPasajero->id,var1,10);
 		}
 
-		UTN_GetValor(var2,CARACTERES,"Ingrese su nombre: ",
-				"\nERROR, su nombre no puede contener numeros o excederse de los 50 caracteres\nIngrese su nombre: ",0);
-		UTN_GetValor(var3,CARACTERES,"Ingrese su apellido: ",
-					"\nERROR, su apellido no puede contener numeros o excederse de los 50 caracteres\nIngrese su apellido: ",0);
-		UTN_getValidacionMayorfloat(var4,"Ingrese el precio del vuelo: ",
-				"\nERROR, el precio del vuelo no puede contener letras o ser menor a 0\nIngrese el precio del vuelo: ",0);
-		UTN_GetValor(var5,7,"Ingrese su codigo de vuelo: ",
-					"\nERROR, su codigo de vuelo no excederse de los 7 caracteres\nIngrese codigo de vuelo: ",1);
-		convertirPalabraAMayusculas(var5,7);
-		UTN_getValidacionMaximoMinimo(&pPasajero->tipoPasajero,"Ingrese el tipo de pasajero(1=FirstClass 2=ExecutiveClass 3=EconomyClass): ",
-				"\nERROR, Reingrese un numero valido(1-3)\nIngrese el tipo de pasajero(1=FirstClass 2=ExecutiveClass 3=EconomyClass): ", 1, 3);
-		itoa(pPasajero->tipoPasajero,var6,50);
-		UTN_getValidacionMaximoMinimo(&var7,"Ingrese el estado de vuelo(1=Aterrizado 2=En horario 3=Demorado): ",
-				"\nERROR, Reingrese solo un numero valido(1-3)\nIngrese el estado de vuelo(1=Aterrizado 2=En horario 3=Demorado): ", 1, 3);
-		switch(var7)
-		{
-			case 1:
-				strcpy(pPasajero->statusFlight,"Aterrizado");
-			break;
-
-			case 2:
-				strcpy(pPasajero->statusFlight,"En horario");
-			break;
-
-			case 3:
-				strcpy(pPasajero->statusFlight,"Demorado");
-			break;
-		}
+		devuelve=pedirDatosPasajeros(pPasajero,var2,var3,var4,var5,var6,&var7);
 
 		pPasajero=Passenger_newParametros(var1,var2,var3,var4,var5,var6,pPasajero->statusFlight);
 		mostrarPasajero(pPasajero);
@@ -188,7 +170,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 				"ingrese el ID del pasajero que desea modificar: ",0,tam);
 			for(i=0;i<tam;i++)
 			{
-				pPasajeroModificar=ll_get(pArrayListPassenger,i);
+				pPasajeroModificar=ll_get(pArrayListPassenger,0);
 				if(pPasajeroModificar->id==id)
 				{
 					break;
@@ -200,8 +182,6 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 				printf("\nEl pasajero con ID %d se ah eliminado anteriormente\n",id);
 			}
 		}while(pPasajeroModificar->isEmpty!=1);
-		/*printf("\nID:%d \nNombre:%s \nApellido:%s \nPrecio:%f \nCodigo de Vuelo:%s \nTipo de pasajero:%d \nEstado de vuelo:%s",
-				pPasajeroModificar->id,pPasajeroModificar->nombre,pPasajeroModificar->apellido,pPasajeroModificar->precio,pPasajeroModificar->codigoVuelo,pPasajeroModificar->tipoPasajero,pPasajeroModificar->statusFlight);*/
 		mostrarPasajero(pPasajeroModificar);
 //-------------------------------------------MENU DE MODIFICACIONES----------------------------------------------------------------------------------------------------------------------------------------------------------
 		do{
@@ -305,6 +285,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
 				pPasajeroModificar=ll_get(pArrayListPassenger,i);
 				if(pPasajeroModificar->id==id)
 				{
+					printf("\n%d", pPasajeroModificar->id);
 					break;
 				}
 			}
@@ -405,31 +386,23 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 	devuelve=0;
 	if(path!=NULL && pArrayListPassenger!=NULL)
 	{
-		devuelve=1;
 		FILE* pArchivo;
-		int tam;
 		Passenger* pasajero= (Passenger*) malloc(sizeof(Passenger));
-		tam=ll_len(pArrayListPassenger);
-		pArchivo=fopen(path,"w");
+
+		pArchivo=fopen(path,"wb");
 		if(pArchivo==NULL)
 		{
 			printf("\nEl archivo no se pudo abrir\n");
 			exit (1);
 		}
 
-		fprintf(pArchivo,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
-		for(int i=0;i<tam;i++)
-		{
-			pasajero=ll_get(pArrayListPassenger,i);
-			if(pasajero->isEmpty==1)
-			{
-				fprintf(pArchivo,"%d,%s,%s,%f,%s,%d,%s\n",pasajero->id,pasajero->nombre,
-					pasajero->apellido,pasajero->precio,pasajero->codigoVuelo,pasajero->tipoPasajero,pasajero->statusFlight);
-			}
-		}
+		devuelve=savePasajerosArchivo(pasajero,pArchivo,pArrayListPassenger);
+
 		free(pasajero);
 		fclose(pArchivo);
 	}
+
+	return devuelve;
 
 	return devuelve;
 }
@@ -448,11 +421,9 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 	devuelve=0;
 	if(path!=NULL && pArrayListPassenger!=NULL)
 	{
-		devuelve=1;
 		FILE* pArchivo;
-		int tam;
 		Passenger* pasajero= (Passenger*) malloc(sizeof(Passenger));
-		tam=ll_len(pArrayListPassenger);
+
 		pArchivo=fopen(path,"wb");
 		if(pArchivo==NULL)
 		{
@@ -460,16 +431,8 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 			exit (1);
 		}
 
-		fprintf(pArchivo,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
-		for(int i=0;i<tam;i++)
-		{
-			pasajero=ll_get(pArrayListPassenger,i);
-			if(pasajero->isEmpty==1)
-			{
-				fprintf(pArchivo,"%d,%s,%s,%f,%s,%d,%s\n",pasajero->id,pasajero->nombre,
-					pasajero->apellido,pasajero->precio,pasajero->codigoVuelo,pasajero->tipoPasajero,pasajero->statusFlight);
-			}
-		}
+		devuelve=savePasajerosArchivo(pasajero,pArchivo,pArrayListPassenger);
+
 		free(pasajero);
 		fclose(pArchivo);
 	}

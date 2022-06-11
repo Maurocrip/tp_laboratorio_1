@@ -7,6 +7,8 @@
 #include "Passenger.h"
 #include "UTN.h"
 
+//-------------------------------------------FUNCIONES PARA CARGAR DATOS DEL ARCHIVO DATA.CSV------------------------------------------------------------------------------------------------------
+
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
@@ -36,14 +38,14 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 		if(cantidad>0)
 		{
 			pasajerosArchiuvo=parser_PassengerFromText(pArchivo,pArrayListPassenger);
-			printf("\nSe le modifico el ID a:\n");
+			printf("\n\nSe le modifico el ID a:\n");
 			for(i=0;i<cantidad;i++)
 			{
 				pPasajero=ll_get(pArrayListPassenger,i);
 				if(pPasajero->isEmpty==1)
 				{
 					pPasajero->id=pPasajero->id+pasajerosArchiuvo;
-					printf("\nID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s"//no uso la funcion mostrarPasajeros por que sino no aparecen todos los pasajeros en pantalla
+					printf("ID:%d\tNom:%s\tApe:%s\tPre:%2.f\tCodVuel:%s\tTipPasa:%d\tEstadoVuel:%s\n"//no uso la funcion mostrarPasajeros por que sino no aparecen todos los pasajeros en pantalla
 							,pPasajero->id,pPasajero->nombre,pPasajero->apellido,pPasajero->precio,pPasajero->codigoVuelo,pPasajero->tipoPasajero,pPasajero->statusFlight);
 				}
 			}
@@ -78,7 +80,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 		pArchivo=fopen(path,"r");
 		if(pArchivo==NULL)
 		{
-			printf("\nEl archivo no se pudo abrir\n");
+			printf("\n\nSe le modifico el ID a:\n");
 			exit (1);
 		}
 
@@ -106,6 +108,11 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 	}
 	return 1;
 }
+
+//--------------------------------------------------------------------FIN FUNCIONES PARA CARGAR DATOS DEL ARCHIVO DATA.CSV------------------------------------------------------------------------
+
+//-------------------------------------------FUNCIONES ALTA, BAJA, MODIFICACION, ELIMINACION Y ORDENAMIENTO DE PASAJEROS--------------------------------------------------------------------------
+
 
 /** \brief Alta de pasajero
  *
@@ -183,7 +190,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 			}
 		}while(pPasajeroModificar->isEmpty!=1);
 		mostrarPasajero(pPasajeroModificar);
-//-------------------------------------------MENU DE MODIFICACIONES----------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------MENU DE MODIFICACIONES--------------------------------------------------------------------------------------------------------------------------------
 		do{
 			UTN_getValidacionMaximoMinimo(&opcion,"\nIngrese un numero \n"
 							" 1. para modificar el nombre\n"
@@ -380,6 +387,12 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
  * \return int
  *
  */
+
+//-------------------------------------------FIN FUNCIONES ALTA, BAJA, MODIFICACION, ELIMINACION Y ORDENAMIENTO DE PASAJEROS-----------------------------------------------------------------------
+
+//-------------------------------------------FUNCIONES PARA GUARDAR DATOS DEL ARCHIVO DATA.CSV-----------------------------------------------------------------------------------------------------
+
+
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 {
 	int devuelve;
@@ -439,3 +452,5 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 
 	return devuelve;
 }
+
+//--------------------------------------------------------------------FIN FUNCIONES PARA GUARDAR DATOS DEL ARCHIVO DATA.CSV------------------------------------------------------------------------

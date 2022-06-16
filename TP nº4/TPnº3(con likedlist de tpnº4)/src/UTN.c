@@ -1,7 +1,7 @@
 /*
  * UTN.c
  *
- *  Created on: 8 may. 2022
+ *  Created on: 6 jun. 2022
  *      Author: Usuario
  */
 
@@ -50,6 +50,110 @@ int UTN_getValidacionMaximoMinimo(int* resultado, char* mensaje,char* mensajeErr
 	return 0;
 }
 
+int chearLetraint(char* array, int tam)
+{
+	int resultado;
+	int i;
+
+	resultado=-1;
+	if(array!=NULL)
+	{
+		for(i=0;*(array+i)!='\0';i++)
+		{
+			resultado=isalpha(*(array+i));
+			if(resultado!=0)
+			{
+				break;
+			}
+		}
+	}
+	return resultado;
+}
+
+int UTN_GetValor(char* array, int tam, char* mensaje, char* mensajeError, int conNumero)
+{
+	int i;
+	int devuelve;
+	int comprobacion;
+	devuelve=-1;
+	if(array!=NULL && tam>0)
+	{
+		devuelve=0;
+
+		printf(mensaje);
+		fflush(stdin);
+		gets(array);
+
+		while(strlen(array)>tam)
+		{
+			printf(mensajeError);
+			gets(array);
+			fflush(stdin);
+
+		}
+		if(conNumero==0)
+		{
+			do
+			{
+				for(i=0;*(array+i)!='\0';i++)
+				{
+					comprobacion= isdigit(*(array+i));
+					if (comprobacion !=0)
+					{
+						printf(mensajeError);
+						gets(array);
+						fflush(stdin);
+						break;
+					}
+				}
+			}while(comprobacion!=0);
+		}
+	}
+	return devuelve;
+}
+
+
+int UTN_getValidacionMayorfloat(char* resultado, char* mensaje,char* mensajeError, int numero)
+{
+	char array[100];
+	int devuelve;
+	int integral;
+
+	printf(mensaje);
+	fflush(stdin);
+	gets(array);
+
+	devuelve=chearLetraint(array,100);
+
+	while(devuelve!=0)
+	{
+		printf(mensajeError);
+		fflush(stdin);
+		gets(array);
+		devuelve=chearLetraint(array,100);
+	}
+
+	integral=atof(array);
+
+	while(integral<numero)
+	{
+		printf(mensajeError);
+		fflush(stdin);
+		gets(array);
+		devuelve=chearLetraint(array,100);
+		while(devuelve!=0)
+		{
+			printf(mensajeError);
+			fflush(stdin);
+			gets(array);
+			devuelve=chearLetraint(array,100);
+		}
+		integral=atof(array);
+	}
+	strcpy(resultado, array);
+	return 0;
+}
+
 int UTN_getValidacionMayorInt(int* resultado, char* mensaje,char* mensajeError, int numero)
 {
 	char array[100];
@@ -89,104 +193,15 @@ int UTN_getValidacionMayorInt(int* resultado, char* mensaje,char* mensajeError, 
 	return 0;
 }
 
-int UTN_getValidacionMayorfloat(float* resultado, char* mensaje,char* mensajeError, int numero)
-{
-	char array[100];
-	int devuelve;
-
-	printf(mensaje);
-	fflush(stdin);
-	gets(array);
-
-	devuelve=chearLetraint(array,100);
-
-	while(devuelve!=0)
-	{
-		printf(mensajeError);
-		fflush(stdin);
-		gets(array);
-		devuelve=chearLetraint(array,100);
-	}
-
-	*resultado=atof(array);
-
-	while(*resultado<numero)
-	{
-		printf(mensajeError);
-		fflush(stdin);
-		gets(array);
-		devuelve=chearLetraint(array,100);
-		while(devuelve!=0)
-		{
-			printf(mensajeError);
-			fflush(stdin);
-			gets(array);
-			devuelve=chearLetraint(array,100);
-		}
-		*resultado=atof(array);
-	}
-	return 0;
-}
-
-int UTN_GetValor(char array[], int tam, char* mensaje, char* mensajeError, int conNumero)
+void convertirPalabraAMayusculas(char* comprobar, int tam)
 {
 	int i;
-	int devuelve;
-	int comprobacion;
-	devuelve=-1;
-	if(array!=NULL && tam>0)
+
+	if(comprobar != NULL)
 	{
-		devuelve=0;
-
-		printf(mensaje);
-		fflush(stdin);
-		gets(array);
-
-		while(strlen(array)>tam)
+		for(i=0;i<tam;i++)
 		{
-			printf(mensajeError);
-			gets(array);
-			fflush(stdin);
-
-		}
-		if(conNumero==0)
-		{
-			do
-			{
-				for(i=0;i<tam;i++)
-				{
-					comprobacion= isdigit(array[i]);
-					if (comprobacion !=0)
-					{
-						printf(mensajeError);
-						gets(array);
-						fflush(stdin);
-						break;
-					}
-				}
-			}while(comprobacion!=0);
+			*(comprobar+i)=toupper(*(comprobar+i));
 		}
 	}
-	return devuelve;
 }
-
-int chearLetraint(char* array, int tam)
-{
-	int resultado;
-	int i;
-
-	resultado=-1;
-	if(array!=NULL)
-	{
-		for(i=0;*(array+i)!='\0';i++)
-		{
-			resultado=isalpha(*(array+i));
-			if(resultado!=0)
-			{
-				break;
-			}
-		}
-	}
-	return resultado;
-}
-
